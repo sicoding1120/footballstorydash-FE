@@ -2,11 +2,12 @@
 
 import { fetcher } from "@/lib/fetcher";
 import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
 const DynamicRoot = () => {
   const { slug } = useParams();
+  const [token,setToken] =useState<any>()
   const { data, error, isLoading } = useSWR(
     `https://footballstorybe.vercel.app/user/${slug.at(1)}`,
     fetcher
@@ -16,13 +17,12 @@ const DynamicRoot = () => {
     window.addEventListener("message", (event) => {
       if (event.origin === "https://footballstory.vercel.app/") {
         const token = event.data;
-        console.log("Access Token Received: ", token);
+        setToken(token);
       }
     });
   }, []);
 
-  
-  console.log(data, error, isLoading);
+  console.log(token);
   return (
     <div>
       Data user:
