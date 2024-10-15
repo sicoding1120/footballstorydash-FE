@@ -19,7 +19,7 @@ const DynamicRoot = () => {
       if (event.origin === "https://footballstorydash.vercel.app") {
         const receivedToken = event.data;
         console.log("Token diterima:", receivedToken);
-        setToken(receivedToken);
+        setToken(event);
         localStorage.setItem("accessToken", receivedToken);
       } else {
         console.warn("Pesan dari origin yang tidak sah:", event.origin);
