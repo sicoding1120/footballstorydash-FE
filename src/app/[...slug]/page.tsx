@@ -11,7 +11,10 @@ const DynamicRoot = () => {
   const { data, error, isLoading } = useSWR(`https://footballstorybe.vercel.app/user/${slug.at(1)}`, fetcher);
   console.log(data, error, isLoading);  
   return (
-    <div>DynamicRoot</div>
+    <div>Data user: 
+      <p>{data.data.username}</p>
+      <p>{data.data.email}</p>
+    </div>
   )
 }
 
