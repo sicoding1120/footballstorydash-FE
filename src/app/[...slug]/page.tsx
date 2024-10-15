@@ -14,7 +14,7 @@ const DynamicRoot = () => {
   );
 
   useEffect(() => {
-    const handleReceiveMessage = (event: any) => {
+    const handleReceiveMessage = (event: MessageEvent) => {
       // Pastikan pesan berasal dari https://footballstory.vercel.app
       if (event.origin === "https://footballstory.vercel.app") {
         const receivedToken = event.data;
