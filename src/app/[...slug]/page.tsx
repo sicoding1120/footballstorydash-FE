@@ -14,15 +14,22 @@ const DynamicRoot = () => {
   );
 
   useEffect(() => {
-    const handleMessage = (event: any) => {
-      if (event.origin === "https://footballstory.vercel.app/") {
-        const token = event.data;
-        setToken(token);
+    const handleReceiveMessage = (event: any) => {
+      // Pastikan pesan berasal dari https://footballstory.vercel.app
+      if (event.origin === "https://footballstory.vercel.app") {
+        const receivedToken = event.data;
+        console.log("Token diterima:", receivedToken);
+        setToken(receivedToken);
+        localStorage.setItem("accessToken", receivedToken);
+      } else {
+        console.warn("Pesan dari origin yang tidak sah:", event.origin);
       }
     };
-    window.addEventListener("message", handleMessage);
+
+    window.addEventListener("message", handleReceiveMessage);
+
     return () => {
-      window.removeEventListener("message", handleMessage);
+      window.removeEventListener("message", handleReceiveMessage);
     };
   }, []);
 
