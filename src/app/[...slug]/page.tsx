@@ -1,46 +1,40 @@
-"use client";
+'use client'
 
-import { fetcher } from "@/lib/fetcher";
-import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import useSWR from "swr";
+import Loaders from '@/components/elements/loaders'
+import Dashboard from '@/components/layouts/dashboard'
+import { fetcher } from '@/lib/fetcher'
+import { useParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import useSWR from 'swr'
 
 const DynamicRoot = () => {
-  const { slug } = useParams();
-  const [token, setToken] = useState<any>();
+  const { slug } = useParams()
   const { data, error, isLoading } = useSWR(
     `https://footballstorybe.vercel.app/user/${slug.at(1)}`,
     fetcher
-  );
+  )
 
-  useEffect(() => {
-    const handleReceiveMessage = (event: MessageEvent) => {
-      // Pastikan pesan berasal dari https://footballstory.vercel.app
-      if (event.origin === "https://footballstorydash.vercel.app") {
-        const receivedToken = event.data;
-        console.log("Token diterima:", receivedToken);
-        setToken(event);
-        localStorage.setItem("accessToken", receivedToken);
-      } else {
-        console.warn("Pesan dari origin yang tidak sah:", event.origin);
-      }
-    };
+  console.log(data);
 
-    window.addEventListener("message", handleReceiveMessage);
+  if (isLoading) {
+    return <Loaders />
+  }
 
-    return () => {
-      window.removeEventListener("message", handleReceiveMessage);
-    };
-  }, []);
+  if (error) {
+    return <div>Error: {error.message}</div>
+  }
 
-  console.log(token);
   return (
-    <div>
-      Data user:
-      <p>{data?.data?.username}</p>
-      <p>{data?.data?.email}</p>
-    </div>
-  );
-};
+    <Dashboard username={data?.data?.username}>
+      <div>
+        Data user:
+        <p>{data?.data?.username}</p>
+        <p>{data?.data?.email}</p>
+        <p>{data?.data?.role}</p>
+        <p>{data?.data?.createdAt}</p>
+      </div>
+    </Dashboard>
+  )
+}
 
-export default DynamicRoot;
+export default DynamicRoot
