@@ -25,6 +25,14 @@ const config: Config = {
         bg1: "#4646AF",
         bg2: "#DBEF5D",
         bg3: "#0000",
+
+        dashboard: {
+          bg: "#1b1f24",
+          primary: "#DBEF5D",
+          accent: "#16191b",
+          board: "#121212",
+          text: "#41444a",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -68,6 +76,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate'),nextui()],
+  plugins: [require("tailwindcss-animate"), nextui()],
 };
 export default config
