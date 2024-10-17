@@ -10,7 +10,6 @@ import CryptoJS from 'crypto-js'
 import Cookie from 'js-cookie'
 
 const DynamicRoot = () => {
-  const [token, setToken] = useState<String>('')
   const { slug } = useParams()
 
   function decryptToken (encryptedToken: any) {
@@ -32,16 +31,15 @@ const DynamicRoot = () => {
   )
 
   useEffect(() => {
-    const encryptedToken = getQueryParam('$f0th$s^5&*28#@8^#y&^##$%#')
+    const encryptedToken = getQueryParam('hash')
     if (encryptedToken) {
       // Dekripsi token
       const token = decryptToken(encryptedToken)
 
       if (token) {
         // Lakukan validasi token di sini
-        console.log('Token JWT:', token)
+        Cookie.set(`${slug.at(1)}`, token, {expires: 1})
         // Misalnya, simpan token ke dalam localStorage
-        localStorage.setItem('access_token', token)
       } else {
         console.error('Token tidak valid setelah dekripsi')
         // Redirect atau tampilkan pesan error jika token tidak valid
@@ -50,9 +48,8 @@ const DynamicRoot = () => {
       console.error('Token tidak ditemukan')
       // Redirect atau tampilkan pesan error jika token tidak ada
     }
-  }, [])
+  }, [slug])
 
-  console.log(token)
 
   if (isLoading) {
     return <Loaders />
@@ -64,14 +61,13 @@ const DynamicRoot = () => {
 
   return (
     <Dashboard>
-      {/* <div>
+      <div>
         Data user:
         <p>{data?.data?.username}</p>
         <p>{data?.data?.email}</p>
         <p>{data?.data?.role}</p>
         <p>{data?.data?.createdAt}</p>
-      </div> */}
-      <div></div>
+      </div>
     </Dashboard>
   )
 }
