@@ -17,8 +17,10 @@ const DynamicRoot = () => {
   )
   useEffect(() => {
     window.addEventListener('message', event => {
+
+      console.log(event);
       // Validasi origin
-      if (event.origin !== 'https://footballstory.vercel.app') return
+      if (event.origin !== 'https://footballstory.vercel.app') return;
 
       const { token } = event.data
       if (token) {
