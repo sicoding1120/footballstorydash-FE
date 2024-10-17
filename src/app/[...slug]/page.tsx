@@ -6,40 +6,53 @@ import { fetcher } from '@/lib/fetcher'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import CryptoJS from 'crypto-js'
 import Cookie from 'js-cookie'
 
 const DynamicRoot = () => {
-  const [token, setToken] = useState<String>('');
+  const [token, setToken] = useState<String>('')
   const { slug } = useParams()
+
+  function decryptToken (encryptedToken: any) {
+    const bytes = CryptoJS.AES.decrypt(
+      encryptedToken,
+      'footballstoryenccodesecret'
+    )
+    return bytes.toString(CryptoJS.enc.Utf8)
+  }
+
+  function getQueryParam (param: string) {
+    const urlParams = new URLSearchParams(window.location.search)
+    return urlParams.get(param)
+  }
+
   const { data, error, isLoading } = useSWR(
     `https://footballstorybe.vercel.app/auth/access/${slug.at(1)}`,
     fetcher
   )
+
   useEffect(() => {
-    window.addEventListener('message', event => {
+    const encryptedToken = getQueryParam('$f0th$s^5&*28#@8^#y&^##$%#')
+    if (encryptedToken) {
+      // Dekripsi token
+      const token = decryptToken(encryptedToken)
 
-      console.log(event);
-      // Validasi origin
-      if (event.origin !== 'https://footballstory.vercel.app') return;
-
-      const { token } = event.data
       if (token) {
-        setToken(token)
-        // Simpan token untuk digunakan dalam aplikasi
-        Cookie.set(`${slug.at(1)}`, data?.data?.access_token, {
-          expires: 1,
-          httpOnly: true
-        })
-
-        // Lakukan redirect atau aksi lainnya setelah mendapatkan token
-        window.location.href = `https://footballstorydash.vercel.app/e/${slug.at(
-          1
-        )}`
+        // Lakukan validasi token di sini
+        console.log('Token JWT:', token)
+        // Misalnya, simpan token ke dalam localStorage
+        localStorage.setItem('access_token', token)
+      } else {
+        console.error('Token tidak valid setelah dekripsi')
+        // Redirect atau tampilkan pesan error jika token tidak valid
       }
-    })
-  }, [data?.data?.access_token, slug])
+    } else {
+      console.error('Token tidak ditemukan')
+      // Redirect atau tampilkan pesan error jika token tidak ada
+    }
+  }, [])
 
-  console.log(token);
+  console.log(token)
 
   if (isLoading) {
     return <Loaders />
