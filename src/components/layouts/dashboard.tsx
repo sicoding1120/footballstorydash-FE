@@ -9,10 +9,10 @@ interface dashboardProps {
 }
 const Dashboard = ({ children }: dashboardProps) => {
   return (
-    <section className='w-full h-screen flex bg-dashboard-bg text-white'>
+    <main className='w-full h-screen flex bg-dashboard-bg text-white'>
       <LeftSide />
       <section className='w-2/3 h-full px-8 py-6'>{children}</section>
-    </section>
+    </main>
   )
 }
 
