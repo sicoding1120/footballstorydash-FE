@@ -13,11 +13,22 @@ const DynamicRoot = () => {
   const { slug } = useParams()
 
   function decryptToken (encryptedToken: any) {
-    const bytes = CryptoJS.AES.decrypt(
-      encryptedToken,
-      'footballstoryenccodesecret'
-    )
-    return bytes.toString(CryptoJS.enc.Utf8)
+    try {
+      const bytes = CryptoJS.AES.decrypt(
+        encryptedToken,
+        'footballstoryenccodesecret'
+      )
+      const decryptedToken = bytes.toString(CryptoJS.enc.Utf8)
+      if (decryptedToken) {
+        return decryptedToken
+      } else {
+        console.error('Decrypted token is invalid or empty')
+        return null
+      }
+    } catch (error) {
+      console.error('Error decrypting token:', error)
+      return null
+    }
   }
 
   function getQueryParam (param: string) {
@@ -38,7 +49,7 @@ const DynamicRoot = () => {
 
       if (token) {
         // Lakukan validasi token di sini
-        Cookie.set(`${slug.at(1)}`, token, {expires: 1})
+        Cookie.set(`${slug.at(1)}`, token, { expires: 1 })
         // Misalnya, simpan token ke dalam localStorage
       } else {
         console.error('Token tidak valid setelah dekripsi')
@@ -49,7 +60,6 @@ const DynamicRoot = () => {
       // Redirect atau tampilkan pesan error jika token tidak ada
     }
   }, [slug])
-
 
   if (isLoading) {
     return <Loaders />
