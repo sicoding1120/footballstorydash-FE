@@ -3,7 +3,7 @@
 import Loaders from '@/components/elements/loaders'
 import Dashboard from '@/components/layouts/dashboard'
 import { fetcher } from '@/lib/fetcher'
-import { useParams, useSearchParams} from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
 import useSWR from 'swr'
 import CryptoJS from 'crypto-js'
@@ -13,13 +13,13 @@ const DynamicRoot = () => {
   const { slug } = useParams()
   const searchParams = useSearchParams()
 
-
-  function decryptToken (encryptedToken:string, secret = 'footballstoryenccodesecret') {
-  const bytes = CryptoJS.AES.decrypt(encryptedToken, secret)
-  return bytes.toString(CryptoJS.enc.Utf8) // Mengembalikan ke bentuk asli
-}
-
- 
+  function decryptToken (
+    encryptedToken: string,
+    secret = 'footballstoryenccodesecret'
+  ) {
+    const bytes = CryptoJS.AES.decrypt(encryptedToken, secret)
+    return bytes.toString(CryptoJS.enc.Utf8) // Mengembalikan ke bentuk asli
+  }
 
   const { data, error, isLoading } = useSWR(
     `https://footballstorybe.vercel.app/auth/access/${slug?.at(1)}`,

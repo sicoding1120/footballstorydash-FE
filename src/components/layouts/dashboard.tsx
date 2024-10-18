@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { FaHome, FaUserCheck } from 'react-icons/fa'
 import { IoIosArrowBack, IoIosSettings } from 'react-icons/io'
