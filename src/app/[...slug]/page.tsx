@@ -7,23 +7,22 @@ import React, { useEffect } from 'react'
 import useSWR from 'swr'
 import CryptoJS from 'crypto-js'
 import Cookie from 'js-cookie'
+import Dashboard from '@/components/layouts/dashboard'
 
 const DynamicRoot = () => {
   const { slug } = useParams()
   const searchParams = useSearchParams()
 
-  function decryptToken (
-    encryptedToken: string,
-    secret = 'footballstoryenccodesecret'
-  ) {
-    const bytes = CryptoJS.AES.decrypt(encryptedToken, secret)
-    return bytes.toString(CryptoJS.enc.Utf8) // Mengembalikan ke bentuk asli
-  }
-
   const { data, error, isLoading } = useSWR(
     `https://footballstorybe.vercel.app/auth/access/${slug?.at(1)}`,
     fetcher
   )
+
+   function decryptToken (
+    encryptedToken: string,
+  ) {
+    return Buffer.from(encryptedToken, 'base64').toString('utf-8')
+  }
 
   useEffect(() => {
     const encryptedToken = searchParams.get('encode')
@@ -33,7 +32,7 @@ const DynamicRoot = () => {
 
       if (token) {
         // Lakukan validasi token di sini
-        Cookie.set(`${slug?.at(1)}`, token, { expires: 1 })
+        Cookie.set(`${slug?.at(1)}`,  token, { expires: 1 })
         // Misalnya, simpan token ke dalam localStorage
       } else {
         console.error('Token tidak valid setelah dekripsi')
@@ -54,13 +53,14 @@ const DynamicRoot = () => {
   }
 
   return (
-      <div>
-        Data user:
-        {/* <p>{data?.data?.username}</p> */}
-        <p>{data?.data?.email}</p>
-        <p>{data?.data?.role}</p>
-        <p>{data?.data?.createdAt}</p>
-      </div>
+    <div>
+      Data user:
+      {/* <p>{data?.data?.username}</p> */}
+      <p>{data?.data?.email}</p>
+      <p>{data?.data?.role}</p>
+      <p>{data?.data?.createdAt}</p>
+    </div>
+    
   )
 }
 
