@@ -58,7 +58,7 @@ const DynamicRoot = () => {
       console.error('Token tidak ditemukan')
       // Redirect atau tampilkan pesan error jika token tidak ada
     }
-  }, [slug])
+  }, [searchParams, slug])
 
   if (isLoading) {
     return <Loaders />
