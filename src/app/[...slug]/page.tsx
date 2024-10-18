@@ -14,24 +14,10 @@ const DynamicRoot = () => {
   const searchParams = useSearchParams()
 
 
-  function decryptToken (encryptedToken: any) {
-    try {
-      const bytes = CryptoJS.AES.decrypt(
-        encryptedToken,
-        'footballstoryenccodesecret'
-      )
-      const decryptedToken = bytes.toString(CryptoJS.enc.Utf8)
-      if (decryptedToken) {
-        return decryptedToken
-      } else {
-        console.error('Decrypted token is invalid or empty')
-        return null
-      }
-    } catch (error) {
-      console.error('Error decrypting token:', error)
-      return null
-    }
-  }
+  function decryptToken (encryptedToken:string, secret = 'footballstoryenccodesecret') {
+  const bytes = CryptoJS.AES.decrypt(encryptedToken, secret)
+  return bytes.toString(CryptoJS.enc.Utf8) // Mengembalikan ke bentuk asli
+}
 
  
 
