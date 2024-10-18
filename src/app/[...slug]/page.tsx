@@ -3,7 +3,7 @@
 import Loaders from '@/components/elements/loaders'
 import Dashboard from '@/components/layouts/dashboard'
 import { fetcher } from '@/lib/fetcher'
-import { useParams} from 'next/navigation'
+import { useParams, useSearchParams} from 'next/navigation'
 import React, { useEffect } from 'react'
 import useSWR from 'swr'
 import CryptoJS from 'crypto-js'
@@ -11,6 +11,8 @@ import Cookie from 'js-cookie'
 
 const DynamicRoot = () => {
   const { slug } = useParams()
+  const searchParams = useSearchParams()
+
 
   function decryptToken (encryptedToken: any) {
     try {
@@ -31,10 +33,7 @@ const DynamicRoot = () => {
     }
   }
 
-  function getQueryParam (param: string) {
-    const urlParams = new URLSearchParams(window.location.search)
-    return urlParams.get(param)
-  }
+ 
 
   const { data, error, isLoading } = useSWR(
     `https://footballstorybe.vercel.app/auth/access/${slug?.at(1)}`,
@@ -42,14 +41,14 @@ const DynamicRoot = () => {
   )
 
   useEffect(() => {
-    const encryptedToken = getQueryParam('encode')
+    const encryptedToken = searchParams.get('encode')
     if (encryptedToken) {
       // Dekripsi token
       const token = decryptToken(encryptedToken)
 
       if (token) {
         // Lakukan validasi token di sini
-        Cookie.set(`${slug.at(1)}`, token, { expires: 1 })
+        Cookie.set(`${slug?.at(1)}`, token, { expires: 1 })
         // Misalnya, simpan token ke dalam localStorage
       } else {
         console.error('Token tidak valid setelah dekripsi')
