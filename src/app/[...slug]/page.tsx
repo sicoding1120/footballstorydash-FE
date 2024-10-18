@@ -42,7 +42,7 @@ const DynamicRoot = () => {
   )
 
   useEffect(() => {
-    const encryptedToken = getQueryParam('hash')
+    const encryptedToken = getQueryParam('encode')
     if (encryptedToken) {
       // Dekripsi token
       const token = decryptToken(encryptedToken)

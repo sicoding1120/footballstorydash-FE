@@ -32,7 +32,7 @@ const LeftSide = () => {
           <h2 className='text-2xl '>username</h2>
           <div className='flex gap-4 items-center'>
             <p className='text-sm'>julukan</p>
-            <div className='px-2  rounded-lg text-sm bg-white/60'>pro</div>
+            <span className='px-2  rounded-lg text-sm bg-white/60'>pro</span>
           </div>
         </div>
         <div className='w-full flex justify-between px-4 gap-6 '>
@@ -52,12 +52,12 @@ const LeftSide = () => {
           </div>
         </div>
       </div>
-      <nav className='flex flex-col gap-3 text-dashboard-text mt-4 capitalize text-sm'>
+      <div className='flex flex-col gap-3 text-dashboard-text mt-4 capitalize text-sm'>
         <div className='flex gap-4 px-4 w-full items-center'>home</div>
         <div className='flex gap-4 px-4 w-full' >home</div>
         <div className='flex gap-4 px-4 w-full' >home</div>
         <div className='flex gap-4 px-4 w-full' >home</div>
-      </nav>
+      </div>
       <div className='flex flex-col gap-4 mt-6'>
         <div className='flex gap-8 items-center text-[10px] pl-4 pr-8 uppercase text-slate-500 justify-between'>
           <p>popular leagues</p>
