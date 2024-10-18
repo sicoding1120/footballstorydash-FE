@@ -58,7 +58,7 @@ const DynamicRoot = () => {
     <Dashboard>
       <div>
         Data user:
-        <p>{data?.data?.username}</p>
+        {/* <p>{data?.data?.username}</p> */}
         <p>{data?.data?.email}</p>
         <p>{data?.data?.role}</p>
         <p>{data?.data?.createdAt}</p>
