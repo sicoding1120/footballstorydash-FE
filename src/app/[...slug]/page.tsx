@@ -3,8 +3,8 @@
 import Loaders from '@/components/elements/loaders'
 import Dashboard from '@/components/layouts/dashboard'
 import { fetcher } from '@/lib/fetcher'
-import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { useParams} from 'next/navigation'
+import React, { useEffect } from 'react'
 import useSWR from 'swr'
 import CryptoJS from 'crypto-js'
 import Cookie from 'js-cookie'
@@ -37,7 +37,7 @@ const DynamicRoot = () => {
   }
 
   const { data, error, isLoading } = useSWR(
-    `https://footballstorybe.vercel.app/auth/access/${slug.at(1)}`,
+    `https://footballstorybe.vercel.app/auth/access/${slug?.at(1)}`,
     fetcher
   )
 
