@@ -1,7 +1,6 @@
 'use client'
 
 import Loaders from '@/components/elements/loaders'
-import Dashboard from '@/components/layouts/dashboard'
 import { fetcher } from '@/lib/fetcher'
 import { useParams, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
@@ -55,7 +54,6 @@ const DynamicRoot = () => {
   }
 
   return (
-    <Dashboard>
       <div>
         Data user:
         {/* <p>{data?.data?.username}</p> */}
@@ -63,7 +61,6 @@ const DynamicRoot = () => {
         <p>{data?.data?.role}</p>
         <p>{data?.data?.createdAt}</p>
       </div>
-    </Dashboard>
   )
 }
 
