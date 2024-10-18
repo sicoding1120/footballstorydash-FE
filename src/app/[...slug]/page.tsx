@@ -18,10 +18,11 @@ const DynamicRoot = () => {
     fetcher
   )
 
-   function decryptToken (
-    encryptedToken: string,
-  ) {
-    return Buffer.from(encryptedToken, 'base64').toString('utf-8')
+  function decryptToken (encryptedToken: string) {
+    return encryptedToken
+      .split('.')
+      .map(part => atob(part))
+      .join('.')
   }
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const DynamicRoot = () => {
 
       if (token) {
         // Lakukan validasi token di sini
-        Cookie.set(`${slug?.at(1)}`,  token, { expires: 1 })
+        Cookie.set(`${slug?.at(1)}`, token, { expires: 1 })
         // Misalnya, simpan token ke dalam localStorage
       } else {
         console.error('Token tidak valid setelah dekripsi')
@@ -60,7 +61,6 @@ const DynamicRoot = () => {
       <p>{data?.data?.role}</p>
       <p>{data?.data?.createdAt}</p>
     </div>
-    
   )
 }
 
